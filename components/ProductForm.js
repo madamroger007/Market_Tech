@@ -80,7 +80,7 @@ export default function ProductForm({
         </ReactSortable>
         {isUpload && (
           <div className="h-24">
-            <div className="h-24 p-1 bg-gray-300 flex">
+            <div className="h-24 w-24 p-1  bg-gray-300 flex items-center justify-center">
               <Spinner />
             </div>
           </div>
