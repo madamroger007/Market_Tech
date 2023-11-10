@@ -4,7 +4,6 @@ import { Category } from "@/models/Category";
 export default async function handle(req, res) {
   const { method } = req;
   await mongooseConnect;
-
   if (method === "GET") {
     res.json(await Category.find().populate('parent'));
   }
@@ -19,5 +18,11 @@ export default async function handle(req, res) {
     const { name, parentCategory,_id } = req.body;
     const category = await Category.updateOne({_id},{ name,parent:parentCategory });
     res.json(category);
+  }
+
+  if(method === "DELETE"){
+    const {_id} = req.query
+    const category =  await Category.deleteOne({_id})
+    res.json(category)
   }
 }

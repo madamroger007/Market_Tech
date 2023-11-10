@@ -1,48 +1,75 @@
 import Layout from "@/components/Layout";
 import { useEffect, useState } from "react";
+import { withSwal } from 'react-sweetalert2';
 import axios from "axios";
 
-export default function Categories() {
+
+function Categories({swal}) {
   const [name, setName] = useState("");
   const [parentCategory, setParentCategory] = useState('');
   const [categories, setCategories] = useState([]);
   const [ editedCategory, setEditedCategory] = useState(null)
 
   useEffect(() => {
-    fetchCategoriest();
+    FetchCategoriest();
   }, []);
 
-  const fetchCategoriest = () => {
+  const FetchCategoriest = () => {
     axios.get("/api/categories").then((result) => {
       setCategories(result.data);
     });
   };
 
-  async function saveCategory(ev) {
+  async function SaveCategory(ev) {
     ev.preventDefault();
     const data = {name,parentCategory};
-    if(editCategory){
-      data._id = editCategory._id;
+    if(editedCategory){
+      data._id = editedCategory._id;
       await axios.put("/api/categories",data);
+      setEditedCategory(null)
     }else{
       await axios.post("/api/categories", data);
     }
     
     setName("");
-    fetchCategoriest();
+    setParentCategory("");
+    FetchCategoriest();
   }
 
-  function editCategory(category){
+  function EditCategory(category){
    setEditedCategory(category);
    setName(category.name);
    setParentCategory(category.parent?._id)
   }
 
+ function DeleteCategory(category){
+
+    swal.fire({
+      title: 'Are you sure?',
+      text: `Do you want to delete ${category.name}?`,
+      showCancelButton:true,
+      cancelButtonTitle: "Cancel",
+      confirmButtonText: "Yes,Delete!",
+      confirmButtonColor:"#d55",
+      reverseButtons:true,
+  }).then(async result => {
+      // when confirmed and promise resolved...
+      const {_id} = category
+     if(result.isConfirmed){
+     await axios.delete("/api/categories?_id="+_id);
+     FetchCategoriest();
+     }
+  }).catch(error => {
+      // when promise rejected...
+  });
+  }
+
+  // console.log(DeleteCategory(category));
   return (
     <Layout>
       <h1 className="title-page">Categories</h1>
       <label>{editedCategory ? `Edit Category Name ${editedCategory.name}`: 'New Category Name'}</label>
-      <form onSubmit={saveCategory} className="flex">
+      <form onSubmit={SaveCategory} className="flex">
         <input
           type="text"
           placeholder={"Category name"}
@@ -79,8 +106,10 @@ export default function Categories() {
                 <td>{category?.parent?.name}</td>
             <td>
                 <button className="btn-edit-form mr-1" 
-                onClick={() => editCategory(category)}>Edit</button>
-                <button className="btn-delete-form">Delete</button>
+                onClick={() => EditCategory(category)}>Edit</button>
+                <button className="btn-delete-form"
+                onClick={() => DeleteCategory(category)}
+                >Delete</button>
            
             </td>
             </tr>
@@ -92,3 +121,7 @@ export default function Categories() {
     </Layout>
   );
 }
+
+export default withSwal(({swal}, ref) => (
+  <Categories swal={swal}/>
+))
