@@ -13,19 +13,21 @@ export default async function handle(req, res) {
     }
   }
   if (method === "POST") {
-    const { title, description, price,images,category } = req.body;
+    const { title, description, price,images,category,properties } = req.body;
     const product = await Product.create({
       title,
       description,
       price,
       images,
-      category
+      category,
+      properties
+
     });
     res.json(product);
   }
 
   if (method === "PUT") {
-    const { title, description, price,images,category ,_id } = req.body;
+    const { title, description, price,images,category,properties ,_id } = req.body;
     await Product.updateOne(
       { _id },
       {
@@ -33,7 +35,8 @@ export default async function handle(req, res) {
        description,
         price,
         images,
-        category
+        category,
+        properties
       }
     );
     res.json(true);

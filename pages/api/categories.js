@@ -9,14 +9,21 @@ export default async function handle(req, res) {
   }
   
   if (method === "POST") {
-    const { name, parentCategory } = req.body;
-    const category = await Category.create({ name,parent:parentCategory });
+    const { name, parentCategory, properties } = req.body;
+    const category = await Category.create({ 
+      name,
+      parent:parentCategory || undefined, 
+      properties:properties });
     res.json(category);
   }
 
   if (method === "PUT") {
-    const { name, parentCategory,_id } = req.body;
-    const category = await Category.updateOne({_id},{ name,parent:parentCategory });
+    const { name, parentCategory,properties ,_id } = req.body;
+    const category = await Category.updateOne({_id},{ 
+      name,
+      parent:parentCategory || undefined,
+      properties
+     });
     res.json(category);
   }
 
