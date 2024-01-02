@@ -28,7 +28,7 @@ export default function Products() {
             <tr key={product._id}>
               <td>{product.title}</td>
               <td>
-                <Link className="btn-edit-form" href={"/products/edit/" + product._id}>
+                <Link className="btn-white" href={"/products/edit/" + product._id}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -45,7 +45,7 @@ export default function Products() {
                   </svg>
                   Edit
                 </Link>
-                <Link className="btn-delete-form" href={"/products/delete/" + product._id}>
+                <Link className="btn-danger" href={"/products/delete/" + product._id}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"

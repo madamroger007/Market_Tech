@@ -37,8 +37,8 @@ export default function DeleteProductpage() {
       </h1>
 
       <div className="flex gap-2 justify-center">
-        <button className="btn-red" onClick={deleteproduct}>Yes</button>
-        <button className="btn-blue" onClick={goBack}>
+        <button className="btn-danger" onClick={deleteproduct}>Yes</button>
+        <button className="btn-primary" onClick={goBack}>
           NO
         </button>
       </div>
