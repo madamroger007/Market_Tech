@@ -118,16 +118,20 @@ export default function ProductForm({
       </select>
       {propertiesToFill.length > 0 &&
         propertiesToFill.map((p) => (
-          <div key={p._id} className="flex gap-1">
-            <div >{p.name}</div>
-            <select
-              value={productProperties[p.name]}
-              onChange={(ev) => setProductProp(p.name, ev.target.value)}
-            >
-              {p.values.map((v) => (
-                <option key={p._id} value={v}>{v}</option>
-              ))}
-            </select>
+          <div key={p._id} className="">
+            <label>{p.name[0].toUpperCase() + p.name.substring(1)}</label>
+            <div>
+              <select
+                value={productProperties[p.name]}
+                onChange={(ev) => setProductProp(p.name, ev.target.value)}
+              >
+                {p.values.map((v) => (
+                  <option key={p._id} value={v}>
+                    {v}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         ))}
 
@@ -140,7 +144,7 @@ export default function ProductForm({
         >
           {!!images?.length &&
             images.map((link) => (
-              <div key={link} className="h-24 ">
+              <div key={link} className="h-24 shadow-sm rounded-sm border border-gray-200">
                 <img src={link} alt="" className="rounded-lg" />
               </div>
             ))}
@@ -152,7 +156,7 @@ export default function ProductForm({
             </div>
           </div>
         )}
-        <label className=" w-24 h-24 border text-center flex flex-col items-center justify-center text-sm text-gray-500 rounded-md bg-gray-200 cursor-pointer">
+        <label className=" w-24 h-24 text-center flex flex-col items-center justify-center text-sm text-primary cursor-pointer rounded-sm bg-white shadow-sm border border-primary">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -185,7 +189,7 @@ export default function ProductForm({
         value={price}
         onChange={(ev) => setPrice(ev.target.value)}
       />
-      <button type="submit" className="btn-element">
+      <button type="submit" className="btn-primary">
         Save
       </button>
     </form>
